@@ -5,8 +5,13 @@
 {% endblock head_title %}
 
 {% block content %}
-Welcome To Tweetme2
-<div id="tweet">
+<div class="row text-center">
+  <div class="col">
+      <h2>Welcome To Tweetme2</h2>
+  </div>
+</div>
+
+<div class ='row' id="tweet">
   Loading....
 </div>
 <script>
@@ -31,7 +36,7 @@ function LikeBtn(tweet) {
 }
 
 function formatTweetElement(tweet) {
-      var formattedElement = "<div class='mb-4 tweet' id ='tweet-"+tweet.id+"'><p>"+tweet.content+"</p><div class ='btn-group'>"+LikeBtn(tweet)+"</div></div>"
+      var formattedElement = "<div class='col-12 col-md-10 mx-auto border rounded py-3 mb-4 tweet' id ='tweet-"+tweet.id+"'><p>"+tweet.content+"</p><div class ='btn-group'>"+LikeBtn(tweet)+"</div></div>"
       return formattedElement;
 }
 
