@@ -24,7 +24,7 @@ def tweet_detail_view(request,tweet_id,*args, **kwargs):
         #"image_path":obj.image.url
     }
     status=200
-    try: 
+    try:
         obj = Tweet.objects.get(id=tweet_id)
         data['content']= obj.content
     except:
