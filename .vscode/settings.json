@@ -1,0 +1,14 @@
+{
+    "bracketPairColorizer.forceIterationColorCycle": true,
+    "bracketPairColorizer.forceUniqueOpeningColor": true,
+    "bracketPairColorizer.highlightActiveScope": true,
+    "bracketPairColorizer.showBracketsInRuler": true,
+    "prettier.enableDebugLogs": true,
+    "pythonPreview.compactFuncLabels": true,
+    "editor.suggest.localityBonus": true,
+    "editor.suggest.shareSuggestSelections": true,
+    "editor.suggest.showStatusBar": true,
+    "editor.suggestFontSize": 1,
+    "files.autoGuessEncoding": true,
+    "bracketPairColorizer.showBracketsInGutter": true
+}
