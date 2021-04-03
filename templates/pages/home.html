@@ -6,8 +6,12 @@
 
 {% block content %}
 Welcome To Tweetme2
-
+<div id="tweet">
+  Loading....
+</div>
 <script>
+const tweetElement = document.getElementById("tweet")
+// tweetElement.innerHTML="Loading ....."
 const xhr = new XMLHttpRequest()
 const method = 'GET'
 const url = '/tweets'
@@ -18,11 +22,19 @@ xhr.open(method,url)
 xhr.onload = function(){
 	// console.log(xhr.response)
 	const serverResponse = xhr.response
-	var listedItems =serverResponse.response
-	console.log(listedItems)
+	const listedItems =serverResponse.response
+  var finalTweetString = ""
+  var i;
+  for (i=0;i<listedItems.length;i++){
+    var currentItem = "<div class='mb-4'><h1>"+listedItems[i].id+"</h1>"+"<p>"+listedItems[i].content+"</p></div>"
+    // console.log(currentItem)
+    finalTweetString+=currentItem
+  }
+  // console.log(finalTweetString)
+  tweetElement.innerHTML=finalTweetString
+	// console.log(listedItems)
 }
 xhr.send()
 
 </script>
 {% endblock content %}
-
