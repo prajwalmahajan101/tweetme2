@@ -6,13 +6,22 @@
 
 {% block content %}
 <div class="row text-center">
-  <div class="col">
-      <h2>Welcome To Tweetme2</h2>
-  </div>
+    <div class="col">
+        <h2>Welcome To Tweetme2</h2>
+    </div>
 </div>
-
-<div class ='row' id="tweet">
-  Loading....
+<div class='row mb-3'>
+    <div class='col-md-4 mx-auto col-10'>
+        <form action="/create-tweets/" class="form" method="post">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="/">
+            <textarea class="form-control mb-3" name="content" placeholder="Your Tweet......"></textarea>
+            <button class="btn btn-primary" type="submit">Tweet</button>
+        </form>
+    </div>
+</div>
+<div class='row' id="tweet">
+    Loading....
 </div>
 <script>
 const tweetElement = document.getElementById("tweet")
