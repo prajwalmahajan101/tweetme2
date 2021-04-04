@@ -2,6 +2,7 @@ import random
 from django.shortcuts import render
 from django.http import JsonResponse
 
+from .form import Tweetfrom
 from .models import Tweet
 
 # Create your views here.
@@ -32,3 +33,5 @@ def tweet_detail_view(request,tweet_id,*args, **kwargs):
         data['message']= "No Data Found"
         status = 404
     return JsonResponse(data,status=status)
+
+def tweet_create_view():
