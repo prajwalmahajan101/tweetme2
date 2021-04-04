@@ -34,4 +34,10 @@ def tweet_detail_view(request,tweet_id,*args, **kwargs):
         status = 404
     return JsonResponse(data,status=status)
 
-def tweet_create_view():
+def tweet_create_view(request, *args, **kwargs):
+    form = Tweetfrom(request.POST or None)
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.save()
+        form = Tweetfrom()
+    return render(request, 'components/form.html', context={"form": form})
