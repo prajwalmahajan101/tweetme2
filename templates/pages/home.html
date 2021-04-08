@@ -72,6 +72,14 @@
                 }
                 // console.log(contenterrorMsg)
             }
+            if (xhr.status === 401) {
+                alert("You Must Login.")
+                window.location.href = "/login"
+            }
+            if (xhr.status === 403) {
+                alert("You Must Login.")
+                window.location.href = "/login"
+            }
             if (xhr.status === 500) {
                 alert("An Server Error Occurred. Please Try Again Later.")
             }
@@ -101,7 +109,7 @@
         xhr.onload = function () {
             // console.log(xhr.response)
             const serverResponse = xhr.response
-            const listedItems = serverResponse.response
+            const listedItems = serverResponse
             var finalTweetString = ""
             var i;
             for (i = 0; i < listedItems.length; i++) {
