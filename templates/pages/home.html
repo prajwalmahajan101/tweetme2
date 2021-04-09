@@ -29,6 +29,21 @@
             myError.setAttribute("class", "d-none alert alert-danger")
         }
     }
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
     function handleTweetCreateFormDidSubmit(event) {
         event.preventDefault()
@@ -129,21 +144,42 @@
     loadTweets(tweetContainerElement)
 
 
-    function handleDidLike(tweet_id, currentcount) {
-        console.log(tweet_id);
-        console.log(currentcount);
-        currentcount++
-        console.log(currentcount);
+    function handleDidTweetAction(tweet_id,action) {
+        const method = 'POST'
+        const url = '/api/tweets/action'
+        const data = JSON.stringify({
+            id:tweet_id,
+            action:action
+        })
+        const xhr = new XMLHttpRequest()
+        xhr.open(method, url)
+        const csrftoken = getCookie('csrftoken');
+        xhr.setRequestHeader("Content-Type", 'application/json')
+        xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", 'XMLHttpRequest')
+        xhr.setRequestHeader("X-Requested-With", 'XMLHttpRequest')
+        xhr.setRequestHeader("X-CSRFToken", csrftoken)
 
+        xhr.onload=function (){
+            loadTweets(tweetContainerElement)
+        }
+        xhr.send(data)
 
     }
 
     function LikeBtn(tweet) {
-        return '<button class="btn btn-primary btn-sm" name="button" onclick =handleDidLike(' + tweet.id + ',' + tweet.likes + ')>' + tweet.likes + ' Likes</button>';
+        return '<button class="btn btn-primary btn-sm" name="button" onclick =handleDidTweetAction(' + tweet.id + ',"like")>' + tweet.likes + ' Likes</button>';
+    }
+
+    function UnLikeBtn(tweet) {
+        return '<button class="btn btn-outline-primary btn-sm" name="button" onclick =handleDidTweetAction(' + tweet.id + ',"unlike")>UnLikes</button>';
+    }
+
+    function ReTweetBtn(tweet) {
+        return '<button class="btn btn-outline-success btn-sm" name="button" onclick =handleDidTweetAction(' + tweet.id + ',"retweet")>ReTweet</button>';
     }
 
     function formatTweetElement(tweet) {
-        var formattedElement = "<div class='col-12 col-md-10 mx-auto border rounded py-3 mb-4 tweet' id ='tweet-" + tweet.id + "'><p>" + tweet.content + "</p><div class ='btn-group'>" + LikeBtn(tweet) + "</div></div>"
+        var formattedElement = "<div class='col-12 col-md-10 mx-auto border rounded py-3 mb-4 tweet' id ='tweet-" + tweet.id + "'><p>" + tweet.content + "</p><div class ='btn-group'>" + LikeBtn(tweet) + UnLikeBtn(tweet) + ReTweetBtn(tweet) + "</div></div>"
         return formattedElement;
     }
 </script>
