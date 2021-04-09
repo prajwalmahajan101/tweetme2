@@ -11,7 +11,7 @@ from django.conf import settings
 
 from .form import Tweetfrom
 from .models import Tweet
-from .serializers import TweetSerializers
+from .serializers import TweetSerializers, TweetActionSerializers
 
 # Create your views here.
 
@@ -51,6 +51,28 @@ def tweet_delete_view(request, tweet_id, *args, **kwargs):
         return Response({"message": "You Can not delete this tweet"}, status=401)
     obj = qs.first()
     obj.delete()
+    return Response({"message": "You Removed Tweet "}, status=200)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def tweet_action_view(request, *args, **kwargs):
+    serializer = TweetActionSerializers(request.POST)
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.validated_data
+        tweet_id = data.get("id")
+        action = data.get("action")
+        qs = Tweet.objects.filter(id=tweet_id)
+        if not qs.exists():
+            return Response({}, status=404)
+        obj = qs.first()
+        if action == 'like':
+            obj.likes.add(request.user)
+        elif action == 'unlike':
+            obj.likes.remove(request.user)
+        elif action == 'retweet':
+            pass
+
     return Response({"message": "You Removed Tweet "}, status=200)
 
 
